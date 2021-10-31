@@ -10,6 +10,13 @@ html(lang="en")
         header
             h1 Joom
         main
-            h2 Welcome to Joom
+            form(id="nickname")
+                input(type="text" placeholder="choose a Nickname", required=True)
+                button  Setting A NickName
+            ul
+            form(id="message")
+                input(type="text" placeholder="write a msg", required=True)
+                button  Send
+        
         button call
         script(src="/public/js/app.js")

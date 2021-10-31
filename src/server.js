@@ -1,7 +1,6 @@
 import http from "http";
 import WebSocket from "ws";
 import express from "express";
-
 import path from 'path';
 
 
@@ -23,10 +22,23 @@ const server = http.createServer(app);
 
 const wss = new WebSocket.Server({server});
 
-function handleConnection(socket) {
-    console.log(socket);
-}
-
+const sockets = [];
+const nickNames = {};
 // 커넥션이 발생했을 떄 어떤 동작을 할지 정의
-wss.on("connection", handleConnection) 
+wss.on("connection", (socket) => {
+    sockets.push(socket);
+    socket.on("message", (message) => {
+        const parsedMessage = JSON.parse(message);
+        if (parsedMessage.type == "message"){
+            parsedMessage["nickname"] = nickNames[socket]
+            console.log(parsedMessage)
+            sockets.forEach(aSocket => {
+                aSocket.send(JSON.stringify(parsedMessage));
+            })
+        } else if (parsedMessage.type == "nickname"){
+            nickNames[socket] = parsedMessage.payload;
+            }
+        })
+    })
+
 server.listen(3000);
