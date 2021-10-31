@@ -4,7 +4,7 @@ import express from "express";
 
 import path from 'path';
 
-const __dirname = path.resolve();
+
 
 const app = express();
 
@@ -26,7 +26,7 @@ const wss = new WebSocket.Server({server});
 function handleConnection(socket) {
     console.log(socket);
 }
+
 // 커넥션이 발생했을 떄 어떤 동작을 할지 정의
 wss.on("connection", handleConnection) 
-
-app.listen(3000);
+server.listen(3000);
